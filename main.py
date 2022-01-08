@@ -26,18 +26,19 @@ def main():
   old_price = driver.find_element(by='xpath', value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
   print(old_price.text)
   while True:
+    time.sleep(3600)
     current_price = driver.find_element(by='xpath', value='//*[@id="corePrice_desktop"]/div/table/tbody/tr/td[2]/span[1]/span[2]')
-    if current_price != old_price:
+    if current_price == old_price:
       message = client.messages \
                     .create(
                         body=f"Dear customer, the price of the item you serch for has been changed",
                         from_=os.environ['TWILIO_NUMBER'],
                         to= os.environ['MY_NUMBER']
                     )
-      print(f"the message has been sent.")
+      print(message)
       current_price = old_price
     else:
       print('the price didnt change')
-      time.sleep(15)
+    
 
 print(main())
